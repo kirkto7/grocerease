@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="edu.msoe.grocerease.HomeFragment"
+        android:label="Home" />
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="edu.msoe.grocerease.ListFragment"
+        android:label="List" />
+
+    <fragment
+        android:id="@+id/recipeFragment"
+        android:name="edu.msoe.grocerease.RecipeFragment"
+        android:label="Deals" />
+
+</navigation>
