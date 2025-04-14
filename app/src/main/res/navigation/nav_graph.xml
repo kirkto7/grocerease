@@ -23,6 +23,15 @@
         android:name="edu.msoe.grocerease.SavedRecipesFragment"
         android:label="Saved Recipes"
         tools:layout="@layout/fragment_saved_recipes" />
+    <fragment
+        android:id="@+id/recipeDetailFragment"
+        android:name="edu.msoe.grocerease.RecipeDetailFragment"
+        tools:layout="@layout/fragment_recipe_detail">
+
+        <argument
+            android:name="recipeId"
+            app:argType="integer" />
+    </fragment>
 
 
 </navigation>
