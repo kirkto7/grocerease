@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/homeFragment">
 
     <fragment
@@ -17,5 +18,20 @@
         android:id="@+id/recipeFragment"
         android:name="edu.msoe.grocerease.RecipeFragment"
         android:label="Deals" />
+    <fragment
+        android:id="@+id/savedRecipesFragment"
+        android:name="edu.msoe.grocerease.SavedRecipesFragment"
+        android:label="Saved Recipes"
+        tools:layout="@layout/fragment_saved_recipes" />
+    <fragment
+        android:id="@+id/recipeDetailFragment"
+        android:name="edu.msoe.grocerease.RecipeDetailFragment"
+        tools:layout="@layout/fragment_recipe_detail">
+
+        <argument
+            android:name="recipeId"
+            app:argType="integer" />
+    </fragment>
+
 
 </navigation>
