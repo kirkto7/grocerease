@@ -12,7 +12,6 @@ data class RecipeIngredientCrossRef(
     val ingredientId: UUID
 )
 
-@Entity
 data class RecipeWithIngredients(
     @Embedded val recipe: Recipe,
     @Relation(
