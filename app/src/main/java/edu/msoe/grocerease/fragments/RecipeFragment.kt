@@ -1,8 +1,6 @@
-package edu.msoe.grocerease
+package edu.msoe.grocerease.fragments
 
-import android.app.Activity
 import android.app.AlertDialog
-import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +16,8 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import edu.msoe.grocerease.R
+import edu.msoe.grocerease.databinding.FragmentListBinding
+import edu.msoe.grocerease.databinding.FragmentRecipeBinding
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -30,6 +30,12 @@ class RecipeFragment : Fragment() {
     private lateinit var addRecipeButton: Button
     private lateinit var savedRecipesButton: Button
     private var photoUri: Uri? = null
+
+    private var _binding: FragmentRecipeBinding? = null
+    private val binding
+        get() = checkNotNull(_binding) {
+            "Cannot access binding because it is null. Is the view visible?"
+        }
 
     private val takePictureLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
@@ -57,10 +63,13 @@ class RecipeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_recipe, container, false)
+        _binding = FragmentRecipeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        addRecipeButton = view.findViewById(R.id.addRecipeButton)
-        savedRecipesButton = view.findViewById(R.id.savedRecipesButton)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        addRecipeButton = binding.addRecipeButton
+        savedRecipesButton = binding.savedRecipesButton
 
         addRecipeButton.setOnClickListener {
             showImagePickerDialog()
@@ -70,7 +79,6 @@ class RecipeFragment : Fragment() {
             findNavController().navigate(R.id.savedRecipesFragment)
         }
 
-        return view
     }
 
     private fun showImagePickerDialog() {

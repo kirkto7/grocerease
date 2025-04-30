@@ -1,46 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imagePizza"
+    <LinearLayout
+        android:id="@+id/recipeButtonContainer"
+        android:orientation="vertical"
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:src="@drawable/pizza"
-        android:scaleType="centerCrop"
-        android:contentDescription="Pizza"
-        android:layout_marginBottom="8dp"/>
-
-    <ImageView
-        android:id="@+id/imageSalad"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:src="@drawable/salad"
-        android:scaleType="centerCrop"
-        android:contentDescription="Salad"
-        android:layout_marginBottom="8dp"/>
-
-    <ImageView
-        android:id="@+id/imageBurger"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:src="@drawable/burger"
-        android:scaleType="centerCrop"
-        android:contentDescription="Burger"
-        android:layout_marginBottom="8dp"/>
-
-    <ImageView
-        android:id="@+id/imagePasta"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:src="@drawable/pasta"
-        android:scaleType="centerCrop"
-        android:contentDescription="Pasta"
-        android:layout_marginBottom="8dp"/>
-</LinearLayout>
-
+        android:layout_height="wrap_content" />
+</ScrollView>

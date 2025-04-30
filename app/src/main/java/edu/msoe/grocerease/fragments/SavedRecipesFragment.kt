@@ -1,4 +1,4 @@
-package edu.msoe.grocerease
+package edu.msoe.grocerease.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import edu.msoe.grocerease.R
+import edu.msoe.grocerease.RecipeImageAdapter
+import edu.msoe.grocerease.databinding.FragmentRecipeDetailBinding
+import edu.msoe.grocerease.databinding.FragmentSavedRecipesBinding
 import java.io.File
 
 class SavedRecipesFragment : Fragment() {
@@ -15,13 +18,24 @@ class SavedRecipesFragment : Fragment() {
     private lateinit var adapter: RecipeImageAdapter
     private lateinit var imageFiles: List<File>
 
+
+    private var _binding: FragmentSavedRecipesBinding? = null
+    private val binding
+        get() = checkNotNull(_binding) {
+            "Cannot access binding because it is null. Is the view visible?"
+        }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_saved_recipes, container, false)
+        _binding = FragmentSavedRecipesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        viewPager = view.findViewById(R.id.recipeViewPager)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewPager = binding.recipeViewPager
 
         // Load saved image files from internal storage
         val imagesDir = File(requireContext().filesDir, "recipes")
@@ -33,6 +47,6 @@ class SavedRecipesFragment : Fragment() {
         adapter = RecipeImageAdapter(imageFiles)
         viewPager.adapter = adapter
 
-        return view
     }
+
 }

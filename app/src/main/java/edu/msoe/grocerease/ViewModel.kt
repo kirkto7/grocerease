@@ -10,8 +10,11 @@ import edu.msoe.grocerease.database.RecipeRepo
 import edu.msoe.grocerease.entities.Ingredient
 import edu.msoe.grocerease.entities.Recipe
 import edu.msoe.grocerease.entities.RecipeIngredientCrossRef
+import edu.msoe.grocerease.entities.RecipeWithIngredients
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.util.UUID
+import kotlin.coroutines.coroutineContext
 
 class MainViewModel (
     application: Application
@@ -36,6 +39,24 @@ class MainViewModel (
             steps = spoonRecipe.instructions ?: ""
         )
         return Triple(recipe, ingredients, crossRefs)
+    }
+
+    suspend fun getRecipeWithIngredients(recipeId: UUID): RecipeWithIngredients? {
+        var result: RecipeWithIngredients? = null
+        val job = CoroutineScope(coroutineContext).launch {
+            result = repo.getRecipeWithIngredients(recipeId)
+        }
+        job.join() // Wait for the coroutine to finish
+        return result
+    }
+
+    suspend fun getAllRecipes(): List<Recipe> {
+        var recipes: List<Recipe> = emptyList()
+        var job = CoroutineScope(coroutineContext).launch {
+            recipes = repo.getAllRecipes()
+        }
+        job.join()
+        return recipes
     }
 
     fun fetchAndStoreRecipes() {

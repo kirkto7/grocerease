@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import edu.msoe.grocerease.R
 import java.io.File
 
 class RecipeImageAdapter(private val imageFiles: List<File>) :

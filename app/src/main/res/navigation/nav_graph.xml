@@ -6,31 +6,49 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="edu.msoe.grocerease.HomeFragment"
-        android:label="Home" />
+        android:name="edu.msoe.grocerease.fragments.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="edu.msoe.grocerease.ListFragment"
-        android:label="List" />
+        android:name="edu.msoe.grocerease.fragments.ListFragment"
+        tools:layout="@layout/fragment_list">
+
+        <argument
+            android:name="ingredientNames"
+            app:argType="string[]" />
+
+        <argument
+            android:name="ingredientAmounts"
+            app:argType="float[]" />
+
+        <argument
+            android:name="ingredientUnits"
+            app:argType="string[]" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="edu.msoe.grocerease.RecipeFragment"
+        android:name="edu.msoe.grocerease.fragments.RecipeFragment"
         android:label="Deals" />
     <fragment
         android:id="@+id/savedRecipesFragment"
-        android:name="edu.msoe.grocerease.SavedRecipesFragment"
+        android:name="edu.msoe.grocerease.fragments.SavedRecipesFragment"
         android:label="Saved Recipes"
         tools:layout="@layout/fragment_saved_recipes" />
     <fragment
         android:id="@+id/recipeDetailFragment"
-        android:name="edu.msoe.grocerease.RecipeDetailFragment"
+        android:name="edu.msoe.grocerease.fragments.RecipeDetailFragment"
         tools:layout="@layout/fragment_recipe_detail">
 
         <argument
             android:name="recipeId"
-            app:argType="integer" />
+            app:argType="java.util.UUID" />
+        <action
+            android:id="@+id/action_recipeDetailFragment_to_listFragment"
+            app:destination="@id/listFragment"/>
     </fragment>
 
 

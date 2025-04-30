@@ -2,6 +2,7 @@ package edu.msoe.grocerease
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import edu.msoe.grocerease.R
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
