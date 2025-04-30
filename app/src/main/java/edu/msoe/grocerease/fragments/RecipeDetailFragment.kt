@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import edu.msoe.grocerease.MainViewModel
 import edu.msoe.grocerease.R
 import edu.msoe.grocerease.databinding.FragmentRecipeDetailBinding
+import edu.msoe.grocerease.entities.Ingredient
 import edu.msoe.grocerease.entities.RecipeWithIngredients
 
 import kotlinx.coroutines.launch
@@ -71,27 +72,27 @@ class RecipeDetailFragment : Fragment() {
                         .joinToString("\n")
 
 
-                ingredients = recipeWithIngredients.ingredients.map { it.name } // Extract ingredient names
+
+                val ingredientIds = recipeWithIngredients.ingredients.map { it.id }
 
                 binding.addButton.setOnClickListener {
                     // Add ingredients to the grocery list
-                    val names = recipeWithIngredients.ingredients.map { it.name }.toTypedArray()
-                    val amounts = recipeWithIngredients.ingredients.map { it.amount.toFloat() }.toFloatArray()
-                    val units = recipeWithIngredients.ingredients.map { it.unit }.toTypedArray()
+                    lifecycleScope.launch {
+                        viewModel.markIngredientsAsDisplayed(ingredientIds)
+                    }
 
                     findNavController().navigate(RecipeDetailFragmentDirections.
-                    actionRecipeDetailFragmentToListFragment(
-                        names,
-                        amounts,
-                        units
-                    ))
-
+                    actionRecipeDetailFragmentToListFragment())
                 }
-
             }
 
 
+
+
+
+
         }
+
 
     }
 }

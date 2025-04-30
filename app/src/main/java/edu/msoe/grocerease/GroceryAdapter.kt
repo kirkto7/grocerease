@@ -23,7 +23,7 @@ class GroceryAdapter(
 
     override fun onBindViewHolder(holder: GroceryViewHolder, position: Int) {
         val item = items[position]
-        holder.checkBox.text = item.name
+        holder.checkBox.text = item.amount.toString() + " " + item.units + " " + item.name
         holder.checkBox.isChecked = item.isChecked
 
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->

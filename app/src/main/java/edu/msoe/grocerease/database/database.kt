@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import edu.msoe.grocerease.entities.*
 
-@Database(entities = [Recipe::class, Ingredient::class, RecipeIngredientCrossRef::class], version=1)
+@Database(entities = [Recipe::class, Ingredient::class, RecipeIngredientCrossRef::class], version=2)
 @TypeConverters(TypeConverter::class)
 abstract class TranscriptDatabase : RoomDatabase() {
     abstract fun recipeDao(): RecipeDao

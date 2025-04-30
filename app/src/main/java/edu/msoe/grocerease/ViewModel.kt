@@ -27,7 +27,7 @@ class MainViewModel (
     fun mapToRoomEntities(spoonRecipe: SpoonacularRecipe): Triple<Recipe, List<Ingredient>, List<RecipeIngredientCrossRef>> {
         val recipeId = UUID.randomUUID()
         val ingredients = spoonRecipe.extendedIngredients.map {
-            Ingredient(UUID.randomUUID(), it.name, it.amount, it.unit)
+            Ingredient(UUID.randomUUID(), it.name, it.amount, it.unit, false)
         }
         val crossRefs = ingredients.map {
             RecipeIngredientCrossRef(recipeId = recipeId, ingredientId = it.id)
@@ -50,6 +50,45 @@ class MainViewModel (
         return result
     }
 
+    suspend fun markIngredientsAsDisplayed(ingredientIds: List<UUID>) {
+        val job = CoroutineScope(coroutineContext).launch {
+            repo.markIngredientsAsDisplayed(ingredientIds)
+        }
+        job.join()
+    }
+
+    suspend fun insertIngredients(ingredients: List<Ingredient>) {
+        val job = CoroutineScope(coroutineContext).launch {
+            repo.insertIngredients(ingredients)
+        }
+        job.join() // Wait for the coroutine to finish
+    }
+
+    suspend fun getAllIngredients(): List<Ingredient>{
+        var result: List<Ingredient> = emptyList()
+        val job = CoroutineScope(coroutineContext).launch {
+            result = repo.getAllIngredients()
+        }
+        job.join() // Wait for the coroutine to finish
+        return result
+    }
+
+    suspend fun resetAllIngredientsDisplayed() {
+        val job = CoroutineScope(coroutineContext).launch {
+            repo.resetAllIngredientDisplayFlags()
+        }
+        job.join()
+    }
+
+    suspend fun getDisplayedIngredients(): List<Ingredient>{
+        var result: List<Ingredient> = emptyList()
+        val job = CoroutineScope(coroutineContext).launch {
+            result = repo.getDisplayedIngredients()
+        }
+        job.join() // Wait for the coroutine to finish
+        return result
+    }
+
     suspend fun getAllRecipes(): List<Recipe> {
         var recipes: List<Recipe> = emptyList()
         var job = CoroutineScope(coroutineContext).launch {
@@ -58,6 +97,14 @@ class MainViewModel (
         job.join()
         return recipes
     }
+
+    suspend fun deleteAllIngredients() {
+        var job = CoroutineScope(coroutineContext).launch {
+            repo.deleteAllIngredients()
+        }
+        job.join()
+    }
+
 
     fun fetchAndStoreRecipes() {
         viewModelScope.launch {
@@ -76,6 +123,7 @@ class MainViewModel (
                 }
             } catch (e: Exception) {
                 // Handle error (e.g. log, show message, etc.)
+                Log.e("RecipeDebug", "Failed to fetch any recipes!")
             }
         }
     }

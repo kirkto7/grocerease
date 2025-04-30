@@ -40,6 +40,8 @@ class HomeFragment : Fragment() {
 
         // Fetch and display recipes
         lifecycleScope.launch {
+            viewModel.fetchAndStoreRecipes()
+
             val recipes = viewModel.getAllRecipes()
             for (recipe in recipes) {
                 val button = Button(requireContext()).apply {

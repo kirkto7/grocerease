@@ -9,5 +9,6 @@ data class Ingredient (
     @PrimaryKey val id: UUID,
     val name: String,
     val amount: Double,
-    val unit: String
+    val unit: String,
+    val displayed: Boolean
 )

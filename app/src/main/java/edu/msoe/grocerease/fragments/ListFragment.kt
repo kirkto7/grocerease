@@ -7,14 +7,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.msoe.grocerease.GroceryAdapter
 import edu.msoe.grocerease.GroceryItem
+import edu.msoe.grocerease.MainViewModel
 import edu.msoe.grocerease.R
 import edu.msoe.grocerease.databinding.FragmentListBinding
 import edu.msoe.grocerease.databinding.FragmentRecipeDetailBinding
+import kotlinx.coroutines.launch
 
 class ListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
@@ -22,8 +26,7 @@ class ListFragment : Fragment() {
     private lateinit var addButton: Button
     private lateinit var adapter: GroceryAdapter
     private val groceryList = mutableListOf<GroceryItem>()
-
-    private val args: ListFragmentArgs by navArgs()
+    private val viewModel: MainViewModel by viewModels()
 
     private var _binding: FragmentListBinding? = null
     private val binding
@@ -54,17 +57,14 @@ class ListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Rebuild grocery items from arguments if available
-        if (args.ingredientNames.isNotEmpty()) {
-            val names = args.ingredientNames
-            val amounts = args.ingredientAmounts
-            val units = args.ingredientUnits
-
-            for (i in names.indices) {
+        lifecycleScope.launch {
+            val ingredients = viewModel.getDisplayedIngredients()
+            for (i in ingredients) {
                 groceryList.add(
                     GroceryItem(
-                        name = names[i],
-                        amount = amounts[i].toDouble(),
-                        units = units[i]
+                        name = i.name,
+                        amount = i.amount,
+                        units = i.unit
                     )
                 )
             }
@@ -82,10 +82,10 @@ class ListFragment : Fragment() {
     }
 
         fun addItemsToGroceryList(ingredients: List<String>) {
-        ingredients.forEach { ingredient ->
-            // Here, you can parse ingredient text if needed, e.g., separate name, amount, etc.
-            groceryList.add(GroceryItem(ingredient, amount = 0.0, units = "")) // Assuming simple ingredient name for now
-        }
-        adapter.notifyDataSetChanged() // Refresh RecyclerView
+            ingredients.forEach { ingredient ->
+                // Here, you can parse ingredient text if needed, e.g., separate name, amount, etc.
+                groceryList.add(GroceryItem(ingredient, amount = 0.0, units = "")) // Assuming simple ingredient name for now
+            }
+            adapter.notifyDataSetChanged() // Refresh RecyclerView
     }
 }

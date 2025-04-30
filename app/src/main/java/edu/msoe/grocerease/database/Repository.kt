@@ -17,7 +17,7 @@ class RecipeRepo private constructor(context: Context) {
             context.applicationContext,
             TranscriptDatabase::class.java,
             DATABASE_NAME
-        )
+        ).fallbackToDestructiveMigration()
         .build()
 
     // Insert a single recipe
@@ -28,6 +28,10 @@ class RecipeRepo private constructor(context: Context) {
     // Insert multiple recipes
     suspend fun insertRecipes(recipes: List<Recipe>) {
         database.recipeDao().insertRecipes(recipes)
+    }
+
+    suspend fun resetAllIngredientDisplayFlags() {
+        database.ingredientDao().resetAllDisplayedFlags()
     }
 
     // Insert a single ingredient
@@ -60,10 +64,27 @@ class RecipeRepo private constructor(context: Context) {
         return database.ingredientDao().getIngredients(ingredientIds)
     }
 
+    suspend fun getDisplayedIngredients(): List<Ingredient> {
+        return database.ingredientDao().getDisplayedIngredients()
+    }
+
+    suspend fun markIngredientsAsDisplayed(ingredientIds: List<UUID>) {
+        database.ingredientDao().markIngredientsAsDisplayed(ingredientIds)
+    }
+
+    suspend fun deleteAllIngredients() {
+        database.ingredientDao().deleteAllIngredients()
+    }
+
     // Get all recipes from the database
     suspend fun getAllRecipes(): List<Recipe> {
         return database.recipeDao().getAllRecipes() // Assuming this function exists in your RecipeDao
     }
+
+    suspend fun getAllIngredients(): List<Ingredient> {
+        return database.ingredientDao().getAllIngredients() // Assuming this function exists in your RecipeDao
+    }
+
 
     companion object {
         private var INSTANCE: RecipeRepo? = null
