@@ -15,23 +15,44 @@
         <EditText
             android:id="@+id/editTextItem"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="Add grocery item" />
+            android:layout_weight="1"
+            android:hint="Item" />
+
+        <EditText
+            android:id="@+id/editTextItem2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Amount"
+            android:inputType="number|numberDecimal" />
+
+        <EditText
+            android:id="@+id/editTextItem3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Units" />
 
         <Button
             android:id="@+id/buttonAddItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add" />
+
     </LinearLayout>
 
     <!-- RecyclerView for the list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groceryRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingTop="12dp"/>
+        android:layout_height="550dp"
+        android:paddingTop="12dp" />
+
+    <Button
+        android:id="@+id/clearButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Clear" />
 </LinearLayout>
 

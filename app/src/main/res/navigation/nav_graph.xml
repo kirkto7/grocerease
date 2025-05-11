@@ -13,19 +13,20 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="edu.msoe.grocerease.fragments.ListFragment"
-        tools:layout="@layout/fragment_list">
-    </fragment>
+        tools:layout="@layout/fragment_list"/>
 
 
     <fragment
         android:id="@+id/recipeFragment"
         android:name="edu.msoe.grocerease.fragments.RecipeFragment"
         android:label="Deals" />
+
     <fragment
         android:id="@+id/savedRecipesFragment"
         android:name="edu.msoe.grocerease.fragments.SavedRecipesFragment"
         android:label="Saved Recipes"
         tools:layout="@layout/fragment_saved_recipes" />
+
     <fragment
         android:id="@+id/recipeDetailFragment"
         android:name="edu.msoe.grocerease.fragments.RecipeDetailFragment"
@@ -34,9 +35,6 @@
         <argument
             android:name="recipeId"
             app:argType="java.util.UUID" />
-        <action
-            android:id="@+id/action_recipeDetailFragment_to_listFragment"
-            app:destination="@id/listFragment"/>
     </fragment>
 
 

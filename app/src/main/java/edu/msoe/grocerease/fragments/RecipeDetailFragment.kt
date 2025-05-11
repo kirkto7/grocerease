@@ -16,6 +16,7 @@ import edu.msoe.grocerease.MainViewModel
 import edu.msoe.grocerease.R
 import edu.msoe.grocerease.databinding.FragmentRecipeDetailBinding
 import edu.msoe.grocerease.entities.Ingredient
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import edu.msoe.grocerease.entities.RecipeWithIngredients
 
 import kotlinx.coroutines.launch
@@ -81,8 +82,9 @@ class RecipeDetailFragment : Fragment() {
                         viewModel.markIngredientsAsDisplayed(ingredientIds)
                     }
 
-                    findNavController().navigate(RecipeDetailFragmentDirections.
-                    actionRecipeDetailFragmentToListFragment())
+                    val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
+                    bottomNav.selectedItemId = R.id.listFragment
+
                 }
             }
 

@@ -23,7 +23,11 @@ import kotlinx.coroutines.launch
 class ListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var editTextItem: EditText
+    private lateinit var editTextItem2: EditText
+    private lateinit var editTextItem3: EditText
     private lateinit var addButton: Button
+    private lateinit var clearButton: Button
+
     private lateinit var adapter: GroceryAdapter
     private val groceryList = mutableListOf<GroceryItem>()
     private val viewModel: MainViewModel by viewModels()
@@ -47,7 +51,10 @@ class ListFragment : Fragment() {
 
         recyclerView = binding.groceryRecyclerView
         editTextItem = binding.editTextItem
+        editTextItem2 = binding.editTextItem2
+        editTextItem3 = binding.editTextItem3
         addButton = binding.buttonAddItem
+        clearButton = binding.clearButton
 
         adapter = GroceryAdapter(groceryList) { index, isChecked ->
             groceryList[index].isChecked = isChecked
@@ -56,7 +63,31 @@ class ListFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Rebuild grocery items from arguments if available
+        displayIngredients(adapter)
+
+        addButton.setOnClickListener {
+            val itemName = editTextItem.text.toString().trim()
+            val amount = editTextItem2.text.toString().trim()
+            val units = editTextItem3.text.toString().trim()
+            if (itemName.isNotEmpty()) {
+                groceryList.add(GroceryItem(name = itemName, amount = amount.toDouble(), units = units))
+                adapter.notifyItemInserted(groceryList.size - 1)
+                editTextItem.text.clear()
+                editTextItem2.text.clear()
+                editTextItem3.text.clear()
+            }
+        }
+
+        clearButton.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.resetAllIngredientsDisplayed()
+                groceryList.clear()
+                displayIngredients(adapter)
+            }
+        }
+    }
+
+    fun displayIngredients(adapter: GroceryAdapter) {
         lifecycleScope.launch {
             val ingredients = viewModel.getDisplayedIngredients()
             for (i in ingredients) {
@@ -70,22 +101,5 @@ class ListFragment : Fragment() {
             }
             adapter.notifyDataSetChanged()
         }
-
-        addButton.setOnClickListener {
-            val itemName = editTextItem.text.toString().trim()
-            if (itemName.isNotEmpty()) {
-                groceryList.add(GroceryItem(name = itemName, amount = 1.0, units = ""))
-                adapter.notifyItemInserted(groceryList.size - 1)
-                editTextItem.text.clear()
-            }
-        }
-    }
-
-        fun addItemsToGroceryList(ingredients: List<String>) {
-            ingredients.forEach { ingredient ->
-                // Here, you can parse ingredient text if needed, e.g., separate name, amount, etc.
-                groceryList.add(GroceryItem(ingredient, amount = 0.0, units = "")) // Assuming simple ingredient name for now
-            }
-            adapter.notifyDataSetChanged() // Refresh RecyclerView
     }
 }
