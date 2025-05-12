@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import edu.msoe.grocerease.entities.Recipe
+import coil.load
+
 
 class RecipeAdapter(
     private val recipes: List<Recipe>,
@@ -18,7 +20,10 @@ class RecipeAdapter(
         val title: TextView = itemView.findViewById(R.id.recipeTitle)
 
         fun bind(recipe: Recipe) {
-            image.setImageResource(recipe.imageResId)
+            image.load(recipe.imageResURL) {
+                placeholder(R.drawable.burger)
+                error(R.drawable.pizza)
+            }
             title.text = recipe.title
             itemView.setOnClickListener { onClick(recipe) }
         }

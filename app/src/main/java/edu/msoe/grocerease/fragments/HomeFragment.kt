@@ -10,8 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import edu.msoe.grocerease.MainViewModel
 import edu.msoe.grocerease.R
+import edu.msoe.grocerease.RecipeAdapter
 import edu.msoe.grocerease.databinding.FragmentHomeBinding
 import edu.msoe.grocerease.databinding.FragmentRecipeDetailBinding
 import kotlinx.coroutines.launch
@@ -36,22 +38,17 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val recipeListContainer = binding.recipeButtonContainer
+        val recyclerView = binding.recipeRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Fetch and display recipes
         lifecycleScope.launch {
             viewModel.fetchAndStoreRecipes()
-
             val recipes = viewModel.getAllRecipes()
-            for (recipe in recipes) {
-                val button = Button(requireContext()).apply {
-                    text = recipe.title
-                    setOnClickListener {
-                        navigateToRecipe(recipe.id)
-                    }
-                }
-                recipeListContainer.addView(button)
+
+            val adapter = RecipeAdapter(recipes) { recipe ->
+                navigateToRecipe(recipe.id)
             }
+            recyclerView.adapter = adapter
         }
     }
 

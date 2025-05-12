@@ -35,7 +35,7 @@ class MainViewModel (
         val recipe = Recipe(
             id = recipeId,
             title = spoonRecipe.title,
-            imageResId = 0, // Change this if you add image caching
+            imageResURL = spoonRecipe.image ?: "",
             steps = spoonRecipe.instructions ?: ""
         )
         return Triple(recipe, ingredients, crossRefs)
@@ -115,11 +115,6 @@ class MainViewModel (
                     repo.insertRecipe(recipe)
                     repo.insertIngredients(ingredients)
                     repo.insertRecipeIngredientCrossRefs(crossRefs)
-
-                    Log.d("RecipeDebug", "Recipe: ${recipe.title}\nSteps: ${recipe.steps}")
-                    ingredients.forEach {
-                        Log.d("RecipeDebug", "Ingredient: ${it.name} ${it.amount} ${it.unit}")
-                    }
                 }
             } catch (e: Exception) {
                 // Handle error (e.g. log, show message, etc.)

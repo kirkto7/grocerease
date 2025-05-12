@@ -8,6 +8,6 @@ import java.util.UUID
 data class Recipe(
     @PrimaryKey val id: UUID,
     val title: String,
-    val imageResId: Int,
+    val imageResURL: String,
     val steps: String
 )

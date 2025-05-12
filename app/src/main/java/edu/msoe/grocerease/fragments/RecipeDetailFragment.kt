@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.fragment.findNavController
+import coil.load
 import edu.msoe.grocerease.MainViewModel
 import edu.msoe.grocerease.R
 import edu.msoe.grocerease.databinding.FragmentRecipeDetailBinding
@@ -63,7 +64,7 @@ class RecipeDetailFragment : Fragment() {
                 // Populate UI
                 binding.detailTitle.text = recipe.recipe.title
                 binding.detailImage
-                    .setImageResource(recipe.recipe.imageResId)
+                    .load(recipe.recipe.imageResURL)
 
                 binding.detailIngredients.text =
                     recipe.ingredients.joinToString("\n") { "• ${it.name} (${it.amount} ${it.unit})" }
