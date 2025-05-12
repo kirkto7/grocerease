@@ -11,16 +11,19 @@ import java.io.File
 
 class RecipeImageAdapter(
     private val imageFiles: List<File>,
-    private val onImageClick: (File) -> Unit
+    private val titles: Map<String, String>,
+    private val onImageClick: (File) -> Unit,
+    private val onTitleClick: (File) -> Unit
 ) : RecyclerView.Adapter<RecipeImageAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.recipeImage)
+        val titleView: TextView = view.findViewById(R.id.recipeTitle)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_recipe_card, parent, false) // Replace with your actual layout
+            .inflate(R.layout.item_recipe_card, parent, false)
         return ViewHolder(view)
     }
 
@@ -29,9 +32,11 @@ class RecipeImageAdapter(
         val bitmap = BitmapFactory.decodeFile(file.absolutePath)
         holder.imageView.setImageBitmap(bitmap)
 
-        holder.imageView.setOnClickListener {
-            onImageClick(file)
-        }
+        val title = titles[file.name] ?: "Sample Title"
+        holder.titleView.text = title
+
+        holder.imageView.setOnClickListener { onImageClick(file) }
+        holder.titleView.setOnClickListener { onTitleClick(file) }
     }
 
     override fun getItemCount(): Int = imageFiles.size

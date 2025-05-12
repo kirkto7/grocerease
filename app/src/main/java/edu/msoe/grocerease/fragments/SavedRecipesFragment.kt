@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -75,6 +76,32 @@ class SavedRecipesFragment : Fragment() {
         }
     }
 
+    private fun saveTitleForImage(file: File, title: String) {
+        val prefs = requireContext().getSharedPreferences("recipe_titles", 0)
+        prefs.edit().putString(file.name, title).apply()
+    }
+
+    private fun loadTitles(): Map<String, String> {
+        val prefs = requireContext().getSharedPreferences("recipe_titles", 0)
+        return prefs.all.mapValues { it.value.toString() }
+    }
+    private fun showEditTitleDialog(file: File) {
+        val editText = EditText(requireContext())
+        editText.setText(loadTitles()[file.name] ?: "Sample Title")
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Edit Recipe Title")
+            .setView(editText)
+            .setPositiveButton("Save") { _, _ ->
+                val newTitle = editText.text.toString()
+                saveTitleForImage(file, newTitle)
+                refreshImages()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+
     private fun showImageDialog(file: File) {
         val dialogView = LayoutInflater.from(requireContext())
             .inflate(R.layout.dialog_full_image, null)
@@ -96,9 +123,13 @@ class SavedRecipesFragment : Fragment() {
 
         imageFiles = imagesDir.listFiles()?.toMutableList() ?: mutableListOf()
 
-        adapter = RecipeImageAdapter(imageFiles) { file ->
-            showImageDialog(file)
-        }
+        val titles = loadTitles()
+
+        adapter = RecipeImageAdapter(imageFiles, titles,
+            onImageClick = { file -> showImageDialog(file) },
+            onTitleClick = { file -> showEditTitleDialog(file) }
+        )
+
 
 
 
