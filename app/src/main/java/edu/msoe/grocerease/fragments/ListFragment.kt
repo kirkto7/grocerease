@@ -76,6 +76,7 @@ class ListFragment : Fragment() {
                 editTextItem2.text.clear()
                 editTextItem3.text.clear()
             }
+            adapter.notifyDataSetChanged()
         }
 
         clearButton.setOnClickListener {

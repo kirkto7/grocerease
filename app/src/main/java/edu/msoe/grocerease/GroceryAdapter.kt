@@ -33,6 +33,9 @@ class GroceryAdapter(
         }
 
         holder.deleteButton.setOnClickListener {
+            items.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, items.size)
 
         }
 
