@@ -5,26 +5,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.io.File
 
-class RecipeImageAdapter(private val imageFiles: List<File>) :
-    RecyclerView.Adapter<RecipeImageAdapter.ImageViewHolder>() {
+class RecipeImageAdapter(
+    private val imageFiles: List<File>,
+    private val onImageClick: (File) -> Unit
+) : RecyclerView.Adapter<RecipeImageAdapter.ViewHolder>() {
 
-    inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val recipeImageView: ImageView = itemView.findViewById(R.id.recipeImageView)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val imageView: ImageView = view.findViewById(R.id.recipeImage)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_recipe_image, parent, false)
-        return ImageViewHolder(view)
+            .inflate(R.layout.item_recipe_card, parent, false) // Replace with your actual layout
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val file = imageFiles[position]
         val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-        holder.recipeImageView.setImageBitmap(bitmap)
+        holder.imageView.setImageBitmap(bitmap)
+
+        holder.imageView.setOnClickListener {
+            onImageClick(file)
+        }
     }
 
     override fun getItemCount(): Int = imageFiles.size

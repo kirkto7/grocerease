@@ -18,8 +18,9 @@
 
     <fragment
         android:id="@+id/recipeFragment"
-        android:name="edu.msoe.grocerease.fragments.RecipeFragment"
-        android:label="Deals" />
+        android:name="edu.msoe.grocerease.fragments.SavedRecipesFragment"
+        android:label="Saved Recipes"
+        tools:layout="@layout/fragment_saved_recipes" />
 
     <fragment
         android:id="@+id/savedRecipesFragment"
